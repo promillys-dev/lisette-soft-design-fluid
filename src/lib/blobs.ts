@@ -77,5 +77,23 @@ export const rives = [
   { fond: "M0,35.2C96,31.4 192,8 288,12C384,16 480,44.3 576,59.5C672,74.7 768,101.1 864,103.2C960,105.3 1056,78 1152,72.2C1248,66.4 1344,69.1 1440,68.5V120H0Z", trait: "M0,35.2C96,31.4 192,8 288,12C384,16 480,44.3 576,59.5C672,74.7 768,101.1 864,103.2C960,105.3 1056,78 1152,72.2C1248,66.4 1344,69.1 1440,68.5" },
 ] as const;
 
+/**
+ * Diaporama du portrait, en shape() CSS : la découpe ouverte (premier état de son morphing),
+ * les trois formes de sa fermeture et les trois de sa réouverture.
+ */
+export const rideau = {
+  ouvert: "shape(from 40.24% 1%, curve to 79.55% 4.92% with 53.88% -0.1% / 68.49% -1.69%, curve to 99.21% 36.25% with 90.61% 11.53% / 97% 22.29%, curve to 91.34% 79.32% with 101.42% 50.2% / 99.09% 67.57%, curve to 57.93% 98.9% with 83.6% 91.07% / 71.94% 96.51%, curve to 16.65% 92.05% with 43.92% 101.29% / 27.34% 100.13%, curve to 0.93% 55.83% with 5.96% 83.97% / 2.77% 71.06%, curve to 6.83% 10.79% with -0.91% 40.59% / -0.55% 21.07%, curve to 40.24% 1% with 14.2% 0.51% / 26.6% 2.11%, close)",
+  fermer: [
+    "shape(from 32.79% 20.17%, curve to 72.88% 17.32% with 44.79% 18.47% / 64.95% 15.14%, curve to 75.1% 31.8% with 80.81% 19.51% / 72.86% 22.26%, curve to 84.84% 68.22% with 77.34% 41.35% / 88.44% 57.3%, curve to 55.9% 90.02% with 81.24% 79.14% / 66.45% 85.76%, curve to 28.61% 90.95% with 45.36% 94.29% / 37.35% 96.34%, curve to 9.25% 61.29% with 19.86% 85.56% / 12.95% 73.4%, curve to 8.91% 26.35% with 5.56% 49.18% / 4.5% 34.07%, curve to 32.79% 20.17% with 13.33% 18.64% / 20.79% 21.86%, close)",
+    "shape(from 46.1% 50.86%, curve to 49.75% 55.66% with 48.92% 51.03% / 48.89% 52.97%, curve to 50.67% 65.2% with 50.61% 58.35% / 50.95% 59.32%, curve to 48.24% 87.02% with 50.39% 71.08% / 50.01% 83.41%, curve to 41.21% 84.45% with 46.46% 90.63% / 44.4% 85.8%, curve to 31.27% 79.82% with 38.03% 83.1% / 33.49% 83.51%, curve to 29.38% 64.77% with 29.05% 76.13% / 28.73% 69.48%, curve to 34.72% 54.71% with 30.03% 60.06% / 31.59% 57.32%, curve to 46.1% 50.86% with 37.86% 52.1% / 43.28% 50.68%, close)",
+    "shape(from 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, curve to 39% 76% with 39% 76% / 39% 76%, close)",
+  ],
+  ouvrir: [
+    "shape(from 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, curve to 63% 28% with 63% 28% / 63% 28%, close)",
+    "shape(from 52.71% 23.69%, curve to 66.73% 20.97% with 56.82% 21.94% / 61.97% 19.27%, curve to 78.08% 32.74% with 71.49% 22.67% / 76.25% 28.64%, curve to 76.49% 42.88% with 79.91% 36.85% / 78.1% 40.4%, curve to 69.46% 45.96% with 74.87% 45.35% / 74.79% 44.99%, curve to 48.11% 48.05% with 64.14% 46.93% / 53.2% 47.81%, curve to 42.3% 47.25% with 43.01% 48.29% / 42.92% 50.59%, curve to 44.79% 30.27% with 41.68% 43.92% / 42.84% 34.69%, curve to 52.71% 23.69% with 46.74% 25.85% / 48.59% 25.43%, close)",
+    "shape(from 53.34% 5.63%, curve to 81.36% 9.44% with 66.14% 4.21% / 73.16% 1.29%, curve to 97.08% 49.06% with 89.57% 17.58% / 96.05% 36.57%, curve to 86.86% 76.03% with 98.12% 61.55% / 93.78% 67.65%, curve to 60.17% 93.73% with 79.94% 84.41% / 72% 91.45%, curve to 23.78% 88.17% with 48.34% 96.01% / 33.82% 96.23%, curve to 6.63% 50.76% with 13.74% 80.12% / 8.62% 64.1%, curve to 13.13% 17.03% with 4.63% 37.42% / 4.37% 25.49%, curve to 53.34% 5.63% with 21.89% 8.57% / 40.54% 7.05%, close)",
+  ],
+} as const;
+
 export type NomBlob = keyof typeof blobs;
 export type NomDecoupe = keyof typeof decoupes;

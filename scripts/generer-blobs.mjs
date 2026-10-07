@@ -183,6 +183,40 @@ function rive(graine) {
 const MERS = [mer(2), mer(8, { niveau: 0.56, amplitude: 0.3 }), mer(15, { niveau: 0.62, amplitude: 0.26 }), mer(21)];
 const RIVES = [4, 6, 13, 18, 29, 37, 41, 52].map(rive);
 
+/* ---------- Diaporama du portrait -------------------------------------------
+   Pour changer de photo, la découpe se referme (elle se pince, s'étire en goutte, disparaît),
+   puis se rouvre depuis un autre point. Ces formes ont les mêmes huit points que la découpe du
+   portrait : le navigateur passe de l'une à l'autre sans à-coup. */
+
+/** Réduit, étire, tourne et déplace une forme cadrée sur 100 × 100. */
+function placer({ depart, segments }, { echelle = 1, etire = [1, 1], centre = [50, 50], angle = 0 }) {
+  const [cos, sin] = [Math.cos((angle * Math.PI) / 180), Math.sin((angle * Math.PI) / 180)];
+  const m = ([x, y]) => {
+    const [dx, dy] = [(x - 50) * echelle * etire[0], (y - 50) * echelle * etire[1]];
+    return [centre[0] + dx * cos - dy * sin, centre[1] + dx * sin + dy * cos];
+  };
+  return { depart: m(depart), segments: segments.map((s) => s.map(m)) };
+}
+
+const forme = (points) => cadrer(lisser(points), 100);
+const PORTRAIT = DECOUPES.portrait[0];
+
+const RIDEAU = {
+  ouvert: forme(PORTRAIT),
+  // Fermeture : pincée vers le bas à gauche, puis goutte, puis plus rien.
+  fermer: [
+    placer(forme(deriver(PORTRAIT, 61, 12)), { echelle: 0.76, centre: [46, 55], angle: -9 }),
+    placer(forme(deriver(PORTRAIT, 62, 16)), { echelle: 0.3, etire: [0.82, 1.2], centre: [41, 68], angle: 16 }),
+    placer(forme(PORTRAIT), { echelle: 0, centre: [39, 76] }),
+  ],
+  // Ouverture : un bourgeon en haut à droite, qui gonfle un peu trop avant de se poser.
+  ouvrir: [
+    placer(forme(PORTRAIT), { echelle: 0, centre: [63, 28] }),
+    placer(forme(deriver(PORTRAIT, 63, 16)), { echelle: 0.32, etire: [1.2, 0.84], centre: [59, 35], angle: -14 }),
+    placer(forme(deriver(PORTRAIT, 64, 10)), { echelle: 0.93, centre: [51, 49], angle: 5 }),
+  ],
+};
+
 /* ---------- Écriture -------------------------------------------------------- */
 const liste = (objet, rendu) =>
   Object.entries(objet)
@@ -212,6 +246,20 @@ ${MERS.map((d) => `  "${d}",`).join("\n")}
 export const rives = [
 ${RIVES.map((r) => `  { fond: "${r.fond}", trait: "${r.trait}" },`).join("\n")}
 ] as const;
+
+/**
+ * Diaporama du portrait, en shape() CSS : la découpe ouverte (premier état de son morphing),
+ * les trois formes de sa fermeture et les trois de sa réouverture.
+ */
+export const rideau = {
+  ouvert: "${shape(RIDEAU.ouvert)}",
+  fermer: [
+${RIDEAU.fermer.map((f) => `    "${shape(f)}",`).join("\n")}
+  ],
+  ouvrir: [
+${RIDEAU.ouvrir.map((f) => `    "${shape(f)}",`).join("\n")}
+  ],
+} as const;
 
 export type NomBlob = keyof typeof blobs;
 export type NomDecoupe = keyof typeof decoupes;

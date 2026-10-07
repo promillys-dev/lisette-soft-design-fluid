@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Blob } from "@/components/ui/blob";
+import { Diaporama } from "@/components/ui/diaporama";
 import { Icon } from "@/components/ui/icones";
 import { Lien } from "@/components/ui/lien";
+import { portraits } from "@/lib/content";
 import type { Forme } from "@/lib/formes";
 import { vars } from "@/lib/utils";
 
@@ -9,7 +11,9 @@ import { vars } from "@/lib/utils";
  * Bloc 1 · Bandeau d'ouverture : texte à gauche, portrait à droite.
  * Le portrait est recadré en blob par clip-path (.portrait__photo). Derrière lui et derrière le
  * texte, des blobs SVG posés en fond absolu (z-index: -1).
- * Proposition A : la découpe et les nappes se déforment et suivent le curseur.
+ * Version fluide : la découpe se déforme sur une photo qui, elle, ne bouge pas ; les nappes
+ * dérivent et suivent le curseur. Le portrait est un diaporama : pour changer de photo, la
+ * découpe se referme puis se rouvre (components/ui/diaporama.tsx).
  * Proposition B : tout est posé, seul le halo du portrait respire (border-radius).
  */
 export function Hero({ forme }: { forme: Forme }) {
@@ -64,16 +68,20 @@ export function Hero({ forme }: { forme: Forme }) {
                 <span className="portrait__goutte portrait__goutte--2" aria-hidden="true" />
               </>
             )}
-            <div className="portrait__photo">
-              <Image
-                src="/images/portrait-lctn.jpg"
-                alt="Portrait de Lisette Claudia TAME NJAMBE"
-                width={788}
-                height={1044}
-                sizes="(max-width: 900px) 78vw, 480px"
-                preload
-              />
-            </div>
+            {fluide ? (
+              <Diaporama vues={portraits} sizes="(max-width: 960px) 78vw, 480px" />
+            ) : (
+              <div className="portrait__photo">
+                <Image
+                  src="/images/portrait-lctn.jpg"
+                  alt="Portrait de Lisette Claudia TAME NJAMBE"
+                  width={788}
+                  height={1044}
+                  sizes="(max-width: 960px) 78vw, 480px"
+                  preload
+                />
+              </div>
+            )}
           </div>
 
           {fluide ? (

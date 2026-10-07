@@ -12,6 +12,14 @@ export const seo = {
     "Site officiel de Lisette Claudia TAME NJAMBE, fondatrice d’Africa Processing Company SA. Son parcours, sa vision de l’industrialisation, ses réalisations, ses tribunes, sa chaîne LCTV et un espace dédié aux médias.",
 };
 
+/* Bloc 1 · Portrait du bandeau : les photos du diaporama (photothèque du site, lib/photos.ts). */
+export const portraits: { image: PhotoId; alt: string; cadrage?: string }[] = [
+  { image: "portrait", alt: "Portrait de Lisette Claudia TAME NJAMBE", cadrage: "50% 0%" },
+  { image: "chantier", alt: "Sur un chantier, en échange avec un membre de l’équipe" },
+  { image: "tenue", alt: "Lisette Claudia TAME NJAMBE, en tenue traditionnelle", cadrage: "80% 12%" },
+  { image: "interview", alt: "Lisette Claudia TAME NJAMBE interrogée par une équipe de télévision" },
+];
+
 /* Bloc 3 · Repères — `part` : avancement vers le cap 2036 (remplit le filet sous le chiffre). */
 export const reperes: { valeur: number; suffixe?: string; part: number; label: string; texte: string }[] = [
   {

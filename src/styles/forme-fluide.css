@@ -157,12 +157,9 @@
   animation: deriver-b 40s ease-in-out infinite;
 }
 
-[data-forme="fluide"] .hero__visuel {
-  translate: calc(var(--mx, 0) * -8px) calc(var(--my, 0) * -8px);
-}
-
-/* Le portrait : la découpe elle-même se déforme. clip-path: shape() s'anime d'un état à l'autre ;
-   les navigateurs qui ne le connaissent pas gardent la découpe SVG fixe de base.css. */
+/* Le portrait : la découpe se déforme, la photo ne bouge pas (ni zoom, ni suivi du curseur).
+   clip-path: shape() s'anime d'un état à l'autre ; les navigateurs qui ne le connaissent pas
+   gardent la découpe SVG fixe de base.css. */
 @supports (clip-path: shape(from 0 0, line to 10px 10px, close)) {
   [data-forme="fluide"] .portrait__photo {
     clip-path: var(--decoupe-portrait);
@@ -175,20 +172,78 @@
   }
 }
 
-@keyframes respirer-photo {
-  0%,
-  100% {
-    transform: scale(1.01);
-  }
-
-  50% {
-    transform: scale(1.06);
-  }
+/* Diaporama du portrait : les photos sont empilées, une seule se voit. Elles ne bougent pas :
+   c'est la découpe qui se referme puis se rouvre (components/ui/diaporama.tsx). */
+.portrait__photo--diaporama {
+  position: relative;
 }
 
-[data-forme="fluide"] .portrait__photo img {
-  transform-origin: 45% 25%;
-  animation: respirer-photo 18s ease-in-out infinite;
+.portrait__image {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.portrait__image.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Sans clip-path: shape(), pas de fermeture : les photos se fondent l'une dans l'autre */
+.is-fondu .portrait__image {
+  transition:
+    opacity 0.9s var(--ease),
+    visibility 0s 0.9s;
+}
+
+.is-fondu .portrait__image.is-active {
+  transition-delay: 0s;
+}
+
+/* Un galet par photo, sous le portrait */
+.portrait__points {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  translate: -50% 0;
+}
+
+.portrait__point {
+  position: relative;
+  width: 15px;
+  height: 13px;
+  padding: 0;
+  border: 1px solid var(--bronze);
+  border-radius: 57% 43% 52% 48% / 46% 56% 44% 54%;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.4s,
+    scale 0.5s var(--ease),
+    border-radius 0.8s var(--ease);
+}
+
+.portrait__point:nth-child(even) {
+  border-radius: 44% 56% 47% 53% / 55% 45% 58% 42%;
+}
+
+/* Zone de clic élargie autour du galet */
+.portrait__point::before {
+  content: "";
+  position: absolute;
+  inset: -12px -6px;
+}
+
+.portrait__point:hover {
+  background: rgb(201 168 76 / 0.45);
+}
+
+.portrait__point.is-on {
+  border-radius: 52% 48% 60% 40% / 42% 54% 46% 58%;
+  background: var(--bronze);
+  scale: 1.3;
 }
 
 [data-forme="fluide"] .portrait__fond {
@@ -551,6 +606,11 @@
 
 /* ---------- Écrans étroits ------------------------------------------------------- */
 @media (max-width: 960px) {
+  /* Colonnes empilées : les galets du diaporama ne doivent pas toucher le bloc suivant */
+  [data-forme="fluide"] .hero__visuel {
+    margin-bottom: 30px;
+  }
+
   .pastille--apc {
     left: -14%;
   }
