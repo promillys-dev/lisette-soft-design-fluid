@@ -1,0 +1,219 @@
+/* ============================================================================
+   Proposition B · Formes et blobs
+   Les mêmes formes, posées. Des rives asymétriques doublées d'un filet d'or séparent les
+   bandes, le portrait est découpé en galet, les cartes sont des feuilles. Un seul blob
+   s'anime : le halo du portrait, qui respire à peine.
+   ==========================================================================*/
+
+[data-forme="formes"] {
+  /* Feuille : deux angles ronds en diagonale, deux angles presque vifs */
+  --r-carte: 6px 44px 6px 44px;
+  --r-carte-2: 44px 6px 44px 6px;
+  --r-vignette: 4px 26px 4px 26px;
+  --r-image: 10px 96px 10px 96px;
+  --r-ile: 14px 140px 14px 140px;
+}
+
+/* ---------- En-tête : une barre pleine largeur, entre deux filets --------------- */
+[data-forme="formes"] .entete {
+  background: rgb(247 243 234 / 0.94);
+  backdrop-filter: blur(10px);
+  transition: box-shadow 0.4s;
+}
+
+[data-forme="formes"] .entete__in {
+  border-block: 1px solid var(--lin);
+}
+
+[data-forme="formes"][data-defile] .entete {
+  box-shadow: 0 16px 30px -28px rgb(44 26 14 / 0.6);
+}
+
+[data-forme="formes"][data-defile] .entete__in {
+  min-height: 64px;
+}
+
+/* Menu : un filet d'or se trace sous le lien */
+[data-forme="formes"] .nav__lien {
+  position: relative;
+  border-radius: 0;
+}
+
+[data-forme="formes"] .nav__lien::after {
+  content: "";
+  position: absolute;
+  right: 9px;
+  bottom: 4px;
+  left: 9px;
+  height: 1px;
+  background: var(--or);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 0.5s var(--ease);
+}
+
+[data-forme="formes"] .nav__item:hover .nav__lien,
+[data-forme="formes"] .nav__item:focus-within .nav__lien {
+  background: none;
+}
+
+[data-forme="formes"] .nav__item:hover .nav__lien::after,
+[data-forme="formes"] .nav__item:focus-within .nav__lien::after {
+  scale: 1 1;
+}
+
+/* ---------- Rives entre les bandes ---------------------------------------------- */
+[data-forme="formes"] .vague__filet {
+  fill: none;
+  stroke: var(--or);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+  translate: 0 -9px;
+}
+
+/* ---------- Bandeau d'ouverture --------------------------------------------------- */
+[data-forme="formes"] .hero__nom {
+  font-size: clamp(42px, 5.9vw, 84px);
+}
+
+[data-forme="formes"] .hero__signature {
+  max-width: 30ch;
+  margin-top: 26px;
+  padding-left: 24px;
+  border-left: 1px solid var(--or);
+}
+
+/* Le portrait, recadré en galet par clip-path */
+[data-forme="formes"] .portrait__photo {
+  clip-path: url(#decoupe-galet);
+}
+
+/* Blob de fond décalé, comme une ombre portée. C'est un tracé SVG : il passe très lentement
+   d'un état à l'autre (keyframes d-souffle). */
+[data-forme="formes"] .portrait__fond {
+  --duree: 30s;
+  top: -4%;
+  left: 7%;
+  width: 106%;
+  height: 109%;
+}
+
+[data-forme="formes"] .portrait__anneau {
+  top: -4%;
+  left: -10%;
+  width: 106%;
+  height: 104%;
+  stroke: var(--bronze);
+  rotate: -8deg;
+}
+
+/* Le seul blob vraiment animé : un galet d'or dont le contour respire (border-radius) */
+@keyframes respirer {
+  0%,
+  100% {
+    border-radius: 58% 42% 55% 45% / 48% 60% 40% 52%;
+    transform: rotate(0deg);
+  }
+
+  50% {
+    border-radius: 44% 56% 42% 58% / 57% 43% 59% 41%;
+    transform: rotate(12deg);
+  }
+}
+
+[data-forme="formes"] .portrait__halo {
+  right: -11%;
+  bottom: 5%;
+  width: 38%;
+  aspect-ratio: 1;
+  background: var(--or);
+  animation: respirer 14s ease-in-out infinite;
+}
+
+/* ---------- Repères : une frise entre deux filets, comme dans la direction ------- */
+[data-forme="formes"] .reperes__grille {
+  gap: 0;
+  border-block: 1px solid var(--brun);
+}
+
+[data-forme="formes"] .repere {
+  padding: 38px 26px 34px;
+}
+
+[data-forme="formes"] .repere + .repere {
+  border-left: 1px solid var(--lin);
+}
+
+[data-forme="formes"] .repere__tache {
+  top: 16px;
+  left: 8px;
+  width: 112px;
+  height: 100px;
+}
+
+[data-forme="formes"] .repere:nth-child(even) .repere__tache {
+  fill: none;
+  stroke: var(--or);
+  stroke-width: 1px;
+}
+
+[data-forme="formes"] .repere:nth-child(even) .repere__tache path {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------- Convictions : trois colonnes sous un filet, sans carte ---------------- */
+[data-forme="formes"] .conviction {
+  padding: 32px 28px 0 0;
+  border: 0;
+  border-top: 1px solid var(--brun);
+  border-radius: 0;
+  background: none;
+}
+
+[data-forme="formes"] .conviction__rang {
+  right: 4px;
+}
+
+/* ---------- Cartes en feuille ----------------------------------------------------- */
+[data-forme="formes"] :is(.porte, .tribune):nth-child(even) {
+  border-radius: var(--r-carte-2);
+}
+
+[data-forme="formes"] .porte__goutte {
+  display: none;
+}
+
+[data-forme="formes"] .sites li.is-active {
+  box-shadow: inset 2px 0 0 var(--or);
+}
+
+[data-forme="formes"] .vignette:nth-child(even) {
+  border-radius: var(--r-carte-2);
+}
+
+[data-forme="formes"] .vignette:nth-child(even) .vignette__image {
+  border-radius: 26px 4px 26px 4px;
+}
+
+[data-forme="formes"] .timbre {
+  right: -7%;
+}
+
+/* ---------- Écrans étroits --------------------------------------------------------- */
+@media (max-width: 960px) {
+  [data-forme="formes"] .repere:nth-child(3) {
+    border-left: 0;
+  }
+
+  [data-forme="formes"] .repere:nth-child(n + 3) {
+    border-top: 1px solid var(--lin);
+  }
+
+  [data-forme="formes"] .reperes__grille {
+    row-gap: 0;
+  }
+
+  [data-forme="formes"] .conviction {
+    padding-right: 0;
+  }
+}

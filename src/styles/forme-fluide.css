@@ -1,0 +1,596 @@
+/* ============================================================================
+   Proposition A · Fluide
+   Tout respire : le portrait se déforme dans sa découpe, les nappes dérivent et suivent le
+   curseur, une houle sépare les bandes, les survols sont « liquides ».
+   ==========================================================================*/
+
+[data-forme="fluide"] {
+  /* Rayons organiques : huit valeurs, jamais deux angles identiques. Le second jeu sert au survol. */
+  --r-carte: 44px 32px 50px 30px / 32px 48px 30px 46px;
+  --r-carte-2: 30px 50px 32px 46px / 48px 30px 46px 32px;
+  --r-vignette: 26px 18px 30px 20px / 20px 28px 18px 26px;
+  --r-image: 72px 44px 88px 48px / 48px 78px 44px 74px;
+  --r-image-2: 46px 84px 52px 76px / 74px 46px 82px 50px;
+  --r-ile: 96px 64px 124px 72px / 72px 110px 64px 104px;
+  --r-ile-2: 70px 118px 76px 100px / 104px 66px 112px 70px;
+}
+
+/* ---------- Mouvements de fond ----------------------------------------------- */
+@keyframes deriver-a {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+
+  33% {
+    transform: translate(4%, -5%) rotate(7deg) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-3%, 4%) rotate(-5deg) scale(0.97);
+  }
+}
+
+@keyframes deriver-b {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate(-5%, -6%) rotate(-9deg) scale(1.06);
+  }
+}
+
+@keyframes tourner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flotter {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-11px);
+  }
+}
+
+/* Galet : le contour passe d'un rayon organique à un autre */
+@keyframes galet {
+  0%,
+  100% {
+    border-radius: 57% 43% 52% 48% / 46% 56% 44% 54%;
+  }
+
+  33% {
+    border-radius: 44% 56% 47% 53% / 55% 45% 58% 42%;
+  }
+
+  66% {
+    border-radius: 52% 48% 60% 40% / 42% 54% 46% 58%;
+  }
+}
+
+/* ---------- En-tête : une pilule de verre qui flotte -------------------------- */
+[data-forme="fluide"] .entete {
+  padding-block: 8px;
+}
+
+[data-forme="fluide"] .entete__in {
+  min-height: 68px;
+  padding-inline: 30px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition:
+    min-height 0.4s var(--ease),
+    background-color 0.4s,
+    border-color 0.4s,
+    box-shadow 0.4s;
+}
+
+[data-forme="fluide"][data-defile] .entete__in {
+  min-height: 62px;
+  border-color: var(--lin);
+  background: rgb(255 253 248 / 0.84);
+  box-shadow: 0 20px 40px -28px rgb(44 26 14 / 0.45);
+  backdrop-filter: blur(14px) saturate(1.2);
+}
+
+/* ---------- Boutons : un liquide monte du bas au survol ----------------------- */
+[data-forme="fluide"] .btn::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: -1;
+  width: 130%;
+  aspect-ratio: 1;
+  border-radius: 44% 56% 48% 52% / 54% 46% 56% 44%;
+  background: var(--bronze-f);
+  translate: -50% 0;
+  transition:
+    translate 0.8s var(--ease),
+    rotate 0.8s var(--ease);
+}
+
+[data-forme="fluide"] .btn:hover::before {
+  rotate: 40deg;
+  translate: -50% -62%;
+}
+
+[data-forme="fluide"] .btn:hover {
+  background: var(--brun);
+}
+
+[data-forme="fluide"] .btn--trait::before {
+  background: var(--brun);
+}
+
+[data-forme="fluide"] .btn--trait:hover,
+[data-forme="fluide"] .btn--clair:hover {
+  background: transparent;
+}
+
+[data-forme="fluide"] .btn--or::before,
+[data-forme="fluide"] .btn--clair::before {
+  background: var(--ivoire);
+}
+
+[data-forme="fluide"] .btn--or:hover {
+  background: var(--or);
+}
+
+/* ---------- Bandeau d'ouverture ----------------------------------------------- */
+[data-forme="fluide"] .hero__nappe--1 {
+  --suivi: 28px;
+  --duree: 30s;
+  animation: deriver-a 34s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .hero__nappe--2 {
+  --suivi: -36px;
+  --duree: 26s;
+  animation: deriver-b 40s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .hero__visuel {
+  translate: calc(var(--mx, 0) * -8px) calc(var(--my, 0) * -8px);
+}
+
+/* Le portrait : la découpe elle-même se déforme. clip-path: shape() s'anime d'un état à l'autre ;
+   les navigateurs qui ne le connaissent pas gardent la découpe SVG fixe de base.css. */
+@supports (clip-path: shape(from 0 0, line to 10px 10px, close)) {
+  [data-forme="fluide"] .portrait__photo {
+    clip-path: var(--decoupe-portrait);
+    animation: decoupe-portrait 18s ease-in-out infinite;
+  }
+
+  [data-forme="fluide"] .photo--bureau {
+    clip-path: var(--decoupe-bureau);
+    animation: decoupe-bureau 22s ease-in-out infinite;
+  }
+}
+
+@keyframes respirer-photo {
+  0%,
+  100% {
+    transform: scale(1.01);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+[data-forme="fluide"] .portrait__photo img {
+  transform-origin: 45% 25%;
+  animation: respirer-photo 18s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .portrait__fond {
+  --suivi: 18px;
+  --duree: 16s;
+  animation: deriver-b 24s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .portrait__anneau {
+  --suivi: -14px;
+  --duree: 20s;
+  animation: tourner 110s linear infinite;
+}
+
+/* Halo chaud derrière le portrait */
+[data-forme="fluide"] .portrait__halo {
+  inset: 16% -22% -10% 18%;
+  background: radial-gradient(closest-side, rgb(201 168 76 / 0.42), rgb(201 168 76 / 0));
+  animation: deriver-a 22s ease-in-out infinite;
+}
+
+.portrait__goutte {
+  position: absolute;
+  animation:
+    flotter 9s ease-in-out infinite,
+    galet 11s ease-in-out infinite;
+}
+
+.portrait__goutte--1 {
+  top: 5%;
+  left: -8%;
+  width: 36px;
+  height: 32px;
+  background: var(--or);
+}
+
+.portrait__goutte--2 {
+  right: 2%;
+  bottom: -3%;
+  width: 20px;
+  height: 20px;
+  background: var(--brun);
+  animation-delay: -4s, -2s;
+}
+
+/* Pastilles posées sur le portrait */
+.pastille {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 22px 9px 9px;
+  border: 1px solid var(--lin);
+  border-radius: 999px;
+  background: rgb(255 253 248 / 0.93);
+  box-shadow: 0 22px 40px -26px rgb(44 26 14 / 0.5);
+  animation: flotter 8s ease-in-out infinite;
+}
+
+.pastille__ico {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brun);
+  color: var(--or);
+  font-size: 19px;
+}
+
+.pastille strong {
+  display: block;
+  color: var(--brun);
+  font-size: 13px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.pastille span {
+  display: block;
+  color: var(--taupe);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.pastille--apc {
+  bottom: 9%;
+  left: -24%;
+}
+
+/* Posée à cheval sur le haut de la découpe, au-dessus de la tête : jamais sur le visage */
+.pastille--ordre {
+  top: -4%;
+  right: -9%;
+  animation-duration: 10s;
+  animation-delay: -3s;
+}
+
+/* Invitation à défiler : une goutte qui coule */
+@keyframes couler {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+
+  51% {
+    transform-origin: bottom;
+  }
+
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+[data-forme="fluide"] .hero__suite::after {
+  animation: couler 2.6s var(--ease) infinite;
+}
+
+/* ---------- Repères : chaque chiffre sur une tache vivante --------------------- */
+[data-forme="fluide"] .repere__tache {
+  --duree: 14s;
+  transition: scale 0.9s var(--ease);
+}
+
+[data-forme="fluide"] .repere:nth-child(even) .repere__tache {
+  --duree: 18s;
+  fill: rgb(201 168 76 / 0.24);
+}
+
+[data-forme="fluide"] .repere:hover .repere__tache {
+  scale: 1.14;
+}
+
+/* ---------- Houle entre les bandes --------------------------------------------
+   Trois nappes de la teinte de la bande suivante glissent à des vitesses différentes. Chaque
+   tracé couvre deux largeurs : translaté d'une largeur, il boucle sans raccord. */
+@keyframes houle {
+  to {
+    transform: translateX(-1440px);
+  }
+}
+
+[data-forme="fluide"] .vague__nappe {
+  animation: houle 32s linear infinite;
+}
+
+[data-forme="fluide"] .vague__nappe--2 {
+  opacity: 0.5;
+  translate: 0 -9px;
+  animation-duration: 46s;
+  animation-direction: reverse;
+}
+
+[data-forme="fluide"] .vague__nappe--3 {
+  opacity: 0.26;
+  translate: 0 -18px;
+  animation-duration: 64s;
+}
+
+/* ---------- Nappes des bandes : elles dérivent lentement ---------------------- */
+[data-forme="fluide"] :is(.bienvenue__nappe, .lctv__nappe) {
+  animation: deriver-a 42s ease-in-out infinite;
+}
+
+[data-forme="fluide"] :is(.convictions__nappe, .actualites__nappe) {
+  animation: deriver-b 46s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .bienvenue__anneau {
+  --duree: 26s;
+}
+
+[data-forme="fluide"] .timbre {
+  animation: galet 12s ease-in-out infinite;
+}
+
+/* ---------- Cartes : le contour change de forme au survol ---------------------- */
+[data-forme="fluide"] .conviction {
+  transition:
+    translate 0.6s var(--ease),
+    box-shadow 0.6s,
+    border-radius 0.9s var(--ease);
+}
+
+[data-forme="fluide"] .conviction:hover {
+  box-shadow: 0 34px 56px -40px rgb(44 26 14 / 0.45);
+  translate: 0 -6px;
+}
+
+[data-forme="fluide"] :is(.conviction, .porte, .tribune):nth-child(even),
+[data-forme="fluide"] :is(.conviction, .porte, .tribune):nth-child(odd):hover,
+[data-forme="fluide"] .domaines a:hover,
+[data-forme="fluide"] .vignette:hover {
+  border-radius: var(--r-carte-2);
+}
+
+[data-forme="fluide"] :is(.conviction, .porte, .tribune):nth-child(even):hover {
+  border-radius: var(--r-carte);
+}
+
+[data-forme="fluide"] .conviction__tache {
+  --duree: 16s;
+}
+
+[data-forme="fluide"] .sites li.is-active {
+  border-radius: 26px 18px 28px 16px / 18px 26px 16px 28px;
+}
+
+/* ---------- Ruban défilant ----------------------------------------------------- */
+@keyframes defiler {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ruban {
+  overflow: hidden;
+  padding-bottom: 20px;
+  background: var(--sable);
+}
+
+.ruban__piste {
+  display: flex;
+  width: max-content;
+  animation: defiler 40s linear infinite;
+}
+
+.ruban span {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  padding-left: 56px;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.4vw, 46px);
+  line-height: 1.3;
+  color: var(--brun);
+  white-space: nowrap;
+}
+
+.ruban span::after {
+  content: "";
+  width: 16px;
+  height: 14px;
+  border-radius: 57% 43% 52% 48% / 46% 56% 44% 54%;
+  background: var(--or);
+}
+
+.ruban em {
+  color: var(--bronze-f);
+}
+
+/* ---------- Expertise ----------------------------------------------------------- */
+[data-forme="fluide"] .realisations__nappe {
+  --duree: 22s;
+}
+
+[data-forme="fluide"] .expertise__nappe--1 {
+  --suivi: 24px;
+  animation: deriver-a 36s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .expertise__nappe--2 {
+  --suivi: -30px;
+  --duree: 28s;
+  animation: deriver-b 44s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .expertise__anneau {
+  --suivi: 16px;
+  animation: tourner 120s linear infinite reverse;
+}
+
+/* ---------- LCTV : le bouton de lecture palpite --------------------------------- */
+@keyframes onde-lecture {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+[data-forme="fluide"] .une .lecture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border: 1px solid var(--or);
+  border-radius: 54% 46% 50% 50% / 50% 52% 48% 50%;
+  animation: onde-lecture 2.6s ease-out infinite;
+}
+
+[data-forme="fluide"] .lecture__tache {
+  --duree: 9s;
+}
+
+[data-forme="fluide"] .une:hover {
+  border-radius: var(--r-image-2);
+}
+
+[data-forme="fluide"] .une__direct::before {
+  animation: onde-lecture 1.8s ease-out infinite alternate;
+}
+
+/* Vignettes : l'image est découpée en blob */
+[data-forme="fluide"] .vignette__image {
+  border-radius: 0;
+  clip-path: url(#decoupe-ecran);
+}
+
+[data-forme="fluide"] .fil__tache {
+  --duree: 15s;
+}
+
+/* ---------- Lettre d'information : l'île change lentement de contour ------------- */
+@keyframes ile {
+  0%,
+  100% {
+    border-radius: var(--r-ile);
+  }
+
+  50% {
+    border-radius: var(--r-ile-2);
+  }
+}
+
+[data-forme="fluide"] .ile {
+  animation: ile 22s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .ile__nappe--1 {
+  --suivi: 20px;
+  animation: deriver-a 30s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .ile__nappe--2 {
+  --suivi: -24px;
+  animation: deriver-b 36s ease-in-out infinite;
+}
+
+[data-forme="fluide"] .ile__anneau {
+  animation: tourner 100s linear infinite;
+}
+
+[data-forme="fluide"] .pied__nappe {
+  --duree: 30s;
+  animation: deriver-a 44s ease-in-out infinite;
+}
+
+/* ---------- Écrans étroits ------------------------------------------------------- */
+@media (max-width: 960px) {
+  .pastille--apc {
+    left: -14%;
+  }
+
+  .pastille--ordre {
+    right: -6%;
+  }
+}
+
+@media (max-width: 600px) {
+  [data-forme="fluide"] .entete__in {
+    padding-inline: 20px 8px;
+  }
+
+  /* Portrait étroit : les pastilles se rangent au-dessus de la tête et au bas du buste */
+  .pastille--ordre {
+    top: -8%;
+    right: -16%;
+  }
+
+  .pastille--apc {
+    bottom: 3%;
+    left: -16%;
+  }
+
+  .pastille {
+    padding: 7px 16px 7px 7px;
+  }
+
+  .pastille__ico {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .pastille strong {
+    font-size: 11.5px;
+  }
+
+  .pastille span {
+    font-size: 10.5px;
+  }
+}
