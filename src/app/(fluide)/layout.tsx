@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import Script from "next/script";
 import { Coquille } from "@/components/layout/coquille";
 import { Document } from "@/components/layout/document";
 import { seo } from "@/lib/content";
@@ -17,6 +18,14 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
   return (
     <Document forme="fluide">
       <Coquille forme="fluide">{children}</Coquille>
+      {/* Chatbot IA : widget externe, isolé dans un Shadow DOM, chargé une fois la page prête.
+          `data-site` désigne ce site dans l'administration du chatbot. */}
+      <Script
+        src="https://admin.kamersphere.com/wp-content/plugins/chatbot-ia/public/widget.js"
+        data-site="lisette-tame-fluid-design"
+        data-api="https://admin.kamersphere.com/wp-json/chatbot/v1/"
+        strategy="lazyOnload"
+      />
     </Document>
   );
 }
