@@ -2208,3 +2208,164 @@ section.bloc:nth-of-type(3n) .bloc__nappe {
     align-items: flex-start;
   }
 }
+
+/* ============================================================================
+   Vidéos réelles de LCTV (WordPress, plugin lisette-core ; src/lib/lctv.ts)
+   Vignettes cliquables et lecteur en fenêtre. Sans vidéo publiée, rien de ceci
+   ne s'affiche : les vignettes d'attente gardent leur habillage.
+   ========================================================================== */
+.video__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+button:is(.une, .vignette, .mini) {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+button:is(.une, .mini) {
+  padding: 0;
+  border: 0;
+}
+
+/* Sur une vraie vignette, souvent déjà titrée par la chaîne, le titre reste en bas sur un voile plus dense */
+.une--video::after {
+  background: linear-gradient(180deg, rgb(26 15 8 / 0.05) 30%, rgb(26 15 8 / 0.93) 78%);
+}
+
+.une--video .une__texte strong {
+  font-size: clamp(20px, 2.1vw, 28px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.une__resume {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  white-space: pre-line;
+}
+
+/* Programme : le titre passe sous la vignette */
+.video-carte .mini {
+  aspect-ratio: 16 / 9;
+}
+
+.video-carte .mini--photo::after {
+  background: linear-gradient(180deg, rgb(26 15 8 / 0) 55%, rgb(26 15 8 / 0.45));
+}
+
+.video-carte__titre {
+  margin-top: 12px;
+  color: var(--brun);
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.video-carte__reperes {
+  margin-top: 5px;
+  color: var(--bronze-f);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Lecteur en fenêtre */
+.visionneuse {
+  width: min(1080px, 94vw);
+  max-width: none;
+  max-height: 94vh;
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid rgb(201 168 76 / 0.45);
+  border-radius: 28px;
+  background: var(--brun);
+  color: var(--ivoire);
+}
+
+.visionneuse::backdrop {
+  background: rgb(26 15 8 / 0.88);
+  backdrop-filter: blur(4px);
+}
+
+.visionneuse[open] {
+  animation: visionneuse-entree 0.45s var(--ease);
+}
+
+@keyframes visionneuse-entree {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+}
+
+.visionneuse__in {
+  position: relative;
+}
+
+.visionneuse__cadre {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.visionneuse__cadre :is(iframe, video) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.visionneuse__fermer {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--or);
+  color: var(--brun);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.visionneuse__fermer:hover {
+  background: var(--ivoire);
+}
+
+.visionneuse__texte {
+  padding: 22px clamp(18px, 3vw, 34px) 30px;
+}
+
+.visionneuse__texte h2 {
+  margin-top: 10px;
+  color: var(--ivoire);
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.14;
+}
+
+.visionneuse__description {
+  max-width: 70ch;
+  margin-top: 12px;
+  color: var(--ble);
+  font-size: 16px;
+  line-height: 1.65;
+  white-space: pre-line;
+}

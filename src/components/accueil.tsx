@@ -11,6 +11,7 @@ import { Reperes } from "@/components/sections/reperes";
 import { Tribunes } from "@/components/sections/tribunes";
 import { Vague } from "@/components/ui/vague";
 import type { Forme } from "@/lib/formes";
+import type { Lctv as Videos } from "@/lib/lctv";
 
 /**
  * Page d'accueil : les blocs du contenu client (l'en-tête et le pied de page viennent de la
@@ -19,7 +20,7 @@ import type { Forme } from "@/lib/formes";
  * choisit le dessin des séparations et ce qui bouge.
  * Entre deux bandes de teintes différentes, une <Vague> : jamais de ligne droite.
  */
-export function Accueil({ forme }: { forme: Forme }) {
+export function Accueil({ forme, lctv }: { forme: Forme; lctv?: Videos | null }) {
   return (
     <main id="contenu">
       <Hero forme={forme} />
@@ -36,7 +37,7 @@ export function Accueil({ forme }: { forme: Forme }) {
       <Vague forme={forme} de="ivoire" vers="brun" motif={4} miroir />
       <Expertise forme={forme} />
       <Vague forme={forme} de="brun" vers="ivoire" motif={5} />
-      <Lctv forme={forme} />
+      <Lctv forme={forme} lctv={lctv} />
       <Vague forme={forme} de="ivoire" vers="sable" motif={6} miroir />
       <Tribunes forme={forme} />
       <Vague forme={forme} de="sable" vers="ivoire" motif={7} />

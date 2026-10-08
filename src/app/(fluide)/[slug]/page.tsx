@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Blocs } from "@/components/blocs";
 import { pages } from "@/content";
+import { avecVideos, chargerLctv } from "@/lib/lctv";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,9 +21,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const page = pages[(await params).slug];
   if (!page) notFound();
+  // LCTV : les vidéos publiées dans WordPress prennent la place des vignettes d'attente.
+  const contenu = page.slug === "lctv" ? avecVideos(page, await chargerLctv()) : page;
   return (
     <main id="contenu">
-      <Blocs page={page} />
+      <Blocs page={contenu} />
     </main>
   );
 }

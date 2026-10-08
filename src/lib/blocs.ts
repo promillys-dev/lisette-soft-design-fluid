@@ -4,6 +4,7 @@
  * chaque type de bloc vit dans src/components/blocs/ et src/styles/pages.css (version fluide).
  */
 import type { IconName } from "@/components/ui/icones";
+import type { Video } from "@/lib/lctv";
 import type { PhotoId } from "@/lib/photos";
 
 /**
@@ -176,9 +177,15 @@ export type Bloc =
       resume: string;
       /** Image d'illustration de la vignette, en attendant celle de la vidéo. */
       image?: PhotoId;
+      /** Vidéo réelle, publiée dans WordPress (lib/lctv.ts) : elle remplace l'illustration. */
+      video?: Video;
       boutons?: Bouton[];
     })
-  | (Tete & { type: "programmes"; items: { titre: string; texte: string; themes?: string[]; images?: PhotoId[] }[] })
+  | (Tete & {
+      type: "programmes";
+      /** `videos` : vidéos réelles du programme ; sans elles, des vignettes d'attente. */
+      items: { titre: string; texte: string; themes?: string[]; images?: PhotoId[]; videos?: Video[] }[];
+    })
   | (Tete & { type: "mosaique"; items: { date: string; texte: string; image?: PhotoId }[] })
   /* Barre de recherche et de filtres */
   | (Commun & { type: "filtres"; filtres: string[]; recherche?: string })

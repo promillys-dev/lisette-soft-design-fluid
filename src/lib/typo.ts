@@ -20,7 +20,11 @@ export function typo(texte: string): string {
 }
 
 /** Clés qui portent des identifiants (adresses, ancres, variantes) et non du texte à lire. */
-const IDENTIFIANTS = new Set(["slug", "id", "type", "page", "ancre", "style", "fond", "icone", "fichier", "site", "langue"]);
+const IDENTIFIANTS = new Set([
+  ...["slug", "id", "type", "page", "ancre", "style", "fond", "icone", "fichier", "site", "langue"],
+  // Vidéos de LCTV (lib/lctv.ts) : adresses et valeurs techniques.
+  ...["url", "lecteur", "vignette", "source", "date", "duree"],
+]);
 
 /** Applique `typo` à tous les textes d'un contenu, en profondeur. */
 export function typographier<T>(valeur: T): T {

@@ -21,6 +21,20 @@ npm run dev
 Le site s'ouvre sur http://localhost:3000. `npm run build` construit la version de production,
 `npm run lint` vérifie le code.
 
+## Vidéos de LCTV
+
+Les vidéos sont gérées dans WordPress par le plugin `lisette-core` (menu « Lisette ») et lues par
+sa route REST `lisette/v1/lctv`. Indiquer l'adresse de l'API dans `.env.local` et dans les
+variables d'environnement de l'hébergeur (Vercel), puis redéployer :
+
+```bash
+LISETTE_API_URL=https://admin.kamersphere.com/wp-json/lisette/v1
+```
+
+Si l'API est réservée aux sites connectés (Lisette → Réglages), ajouter la clé affichée à la
+connexion du site dans `LISETTE_API_KEY`. Sans ces variables, ou si WordPress ne répond pas, le
+site affiche les vignettes d'attente. Une vidéo publiée apparaît sur le site dans la minute.
+
 ## Où modifier quoi
 
 - Textes de l'accueil : `src/lib/content.ts` et `src/components/sections/` (un fichier par bloc

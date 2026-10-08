@@ -2,6 +2,8 @@ import { type B, Boutons, Section, Tete, Titre } from "@/components/blocs/base";
 import { Blob } from "@/components/ui/blob";
 import { Icon } from "@/components/ui/icones";
 import { Illustration, Lecture } from "@/components/ui/lecture";
+import { TuileVideo, Vignette } from "@/components/ui/tuile-video";
+import { reperes } from "@/lib/lctv";
 import { cn, vars } from "@/lib/utils";
 
 /** LCTV · vidéo à la une : lecteur en grand format, titre, repères et résumé. */
@@ -9,21 +11,32 @@ export function VideoUne({ bloc }: { bloc: B<"video-une"> }) {
   return (
     <Section id={bloc.id} fond={bloc.fond}>
       <div className="video-une">
-        <a className="une reveal" data-reveal="zoom" href="#" aria-label={`Regarder : ${bloc.titre}`}>
-          <span className="une__image">
-            <Illustration image={bloc.image} sizes="(max-width: 960px) 92vw, 760px" />
-          </span>
-          <Lecture forme="fluide" />
-          <span className="une__direct">{bloc.etiquette}</span>
-        </a>
+        {bloc.video ? (
+          <TuileVideo video={bloc.video} vignette={false} className="une reveal" data-reveal="zoom">
+            <span className="une__image">
+              <Vignette video={bloc.video} />
+            </span>
+            <Lecture forme="fluide" />
+            <span className="une__direct">{bloc.etiquette}</span>
+          </TuileVideo>
+        ) : (
+          <a className="une reveal" data-reveal="zoom" href="#" aria-label={`Regarder : ${bloc.titre}`}>
+            <span className="une__image">
+              <Illustration image={bloc.image} sizes="(max-width: 960px) 92vw, 760px" />
+            </span>
+            <Lecture forme="fluide" />
+            <span className="une__direct">{bloc.etiquette}</span>
+          </a>
+        )}
         <div className="reveal">
           <p className="surtitre">{bloc.surtitre ?? bloc.etiquette}</p>
           <h2 className="h2">
             <Titre>{bloc.titre}</Titre>
           </h2>
           <p className="video-une__meta">{bloc.meta}</p>
-          <p className="chapo">{bloc.resume}</p>
-          {bloc.boutons && <Boutons boutons={bloc.boutons} sombre={bloc.fond === "brun"} anime={false} />}
+          <p className={cn("chapo", bloc.video && "une__resume")}>{bloc.resume}</p>
+          {/* Avec une vidéo réelle, la vignette lance la lecture : les boutons d'attente n'ont plus lieu d'être. */}
+          {bloc.boutons && !bloc.video && <Boutons boutons={bloc.boutons} sombre={bloc.fond === "brun"} anime={false} />}
         </div>
       </div>
     </Section>
@@ -50,6 +63,20 @@ export function Programmes({ bloc }: { bloc: B<"programmes"> }) {
                 <Icon name="arrow" />
               </a>
             </div>
+            {programme.videos?.length ? (
+              <div className="programme__rang" style={vars({ "--n": 4 })}>
+                {/* Le titre passe sous la vignette : celles des chaînes portent souvent déjà du texte. */}
+                {programme.videos.map((video) => (
+                  <div className="video-carte" key={video.id}>
+                    <TuileVideo video={video} className="mini mini--photo">
+                      <Lecture forme="fluide" />
+                    </TuileVideo>
+                    <p className="video-carte__titre">{video.titre}</p>
+                    {reperes(video) && <p className="video-carte__reperes">{reperes(video)}</p>}
+                  </div>
+                ))}
+              </div>
+            ) : (
             <div className="programme__rang" style={vars({ "--n": vignettes.length > 4 ? 3 : 4 })}>
               {vignettes.map((theme, j) => (
                 <a
@@ -65,6 +92,7 @@ export function Programmes({ bloc }: { bloc: B<"programmes"> }) {
                 </a>
               ))}
             </div>
+            )}
           </div>
         );
       })}
