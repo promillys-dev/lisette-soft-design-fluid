@@ -1,9 +1,11 @@
 import type { Page } from "@/lib/blocs";
+import { documents } from "@/lib/documents";
 
 /**
  * Menu 7 · Tribunes — DocumentationLisette/LCTN_Site_Menu_07_Tribunes.pdf
  * Le bloc 5 du document (gabarit de la page de lecture d'une tribune) décrit une autre page,
- * à créer lorsque les textes intégraux seront fournis.
+ * à créer lorsque les textes intégraux seront fournis. En attendant, les tribunes reçues en PDF
+ * (lib/documents.ts) se lisent et se téléchargent depuis leur carte.
  */
 export const page: Page = {
   slug: "tribunes",
@@ -29,7 +31,10 @@ export const page: Page = {
       chapo:
         "On nous a beaucoup promis : des plans d’émergence, des stratégies à horizon lointain, des conférences sur la transformation structurelle. J’ai lu ces documents, assisté à ces réunions, et j’ai décidé de continuer à construire mes usines. Parce que l’Afrique ne se développera pas avec des discours. Elle se développera par ses propres industries.",
       citation: "Ce que les bailleurs de fonds financent, c’est du contexte. Ce que les industriels construisent, c’est de la réalité.",
-      boutons: [{ label: "Lire la tribune" }, { label: "Télécharger en PDF" }],
+      boutons: [
+        { label: "Lire la tribune", vers: { url: documents.tribuneIndustriels } },
+        { label: "Télécharger en PDF", vers: { url: documents.tribuneIndustriels, telecharger: true } },
+      ],
     },
     {
       type: "bibliotheque",
@@ -47,18 +52,28 @@ export const page: Page = {
       ],
       tri: ["Les plus récentes", "Les plus lues"],
       recherche: "Rechercher un mot ou un sujet",
+      // Les tribunes dont le PDF est fourni viennent en tête, la plus récente d'abord.
       cartes: [
         {
-          theme: "Industrialisation",
-          titre: "Le Cameroun n’a pas besoin de discours. Il a besoin d’usines.",
+          theme: "Territoires",
+          titre: "Le développement du Cameroun par les régions.",
+          parution: "Septembre 2026",
           accroche:
-            "L’industrialisation n’est pas un horizon lointain réservé aux pays riches. C’est un choix, que le Cameroun peut faire aujourd’hui et que je m’engage, par mon expertise et par mes actes, à rendre possible.",
+            "Aucune grande économie ne s’est construite depuis sa seule capitale. Voici pourquoi le Cameroun doit faire de ses dix régions le moteur de son industrialisation.",
+          pdf: documents.tribuneRegions,
         },
         {
           theme: "Industrialisation de l’Afrique",
           titre: "L’Afrique ne se développera pas sans ses industriels.",
           accroche:
             "Ni l’aide internationale ni les politiques fiscales ne construisent d’usines à notre place. Plaidoyer pour une industrialisation portée de l’intérieur, et pour des États qui font levier.",
+          pdf: documents.tribuneIndustriels,
+        },
+        {
+          theme: "Industrialisation",
+          titre: "Le Cameroun n’a pas besoin de discours. Il a besoin d’usines.",
+          accroche:
+            "L’industrialisation n’est pas un horizon lointain réservé aux pays riches. C’est un choix, que le Cameroun peut faire aujourd’hui et que je m’engage, par mon expertise et par mes actes, à rendre possible.",
         },
         {
           theme: "Transformation locale",

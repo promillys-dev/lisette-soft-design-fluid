@@ -16,7 +16,12 @@ export type IconName =
   | "repas"
   | "sante"
   | "coeur"
-  | "etudes";
+  | "etudes"
+  | "download"
+  | "linkedin"
+  | "facebook"
+  | "instagram"
+  | "tiktok";
 
 /** Pictogramme au trait fin, tiré de la planche <Sprite /> rendue une fois par page. */
 export function Icon({ name }: { name: IconName }) {
@@ -94,6 +99,25 @@ export function Sprite() {
       <symbol id="i-medal" viewBox="0 0 24 24">
         <circle cx="12" cy="14.5" r="5" />
         <path d="M9.2 10.3 6.5 3.5h4L12 7.2l1.5-3.7h4l-2.7 6.8M12 12.4v4.2M9.9 14.5h4.2" />
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24">
+        <path d="M12 4v11.5M7 11l5 5 5-5M5 20h14" />
+      </symbol>
+      {/* Réseaux sociaux (lib/reseaux.ts), au même trait que les autres pictogrammes */}
+      <symbol id="i-linkedin" viewBox="0 0 24 24">
+        <path d="M16 8.5a5.5 5.5 0 0 1 5.5 5.5v6.5h-4V14a1.5 1.5 0 0 0-3 0v6.5h-4V14A5.5 5.5 0 0 1 16 8.5zM2.5 9.5h4v11h-4z" />
+        <circle cx="4.5" cy="4.6" r="2" />
+      </symbol>
+      <symbol id="i-facebook" viewBox="0 0 24 24">
+        <path d="M17.5 2.5h-3A4.5 4.5 0 0 0 10 7v3H7v4h3v7.5h4V14h3l1-4h-4V7.2a.8.8 0 0 1 .8-.8h2.7z" />
+      </symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <path d="M17.2 6.8h.01" />
+      </symbol>
+      <symbol id="i-tiktok" viewBox="0 0 24 24">
+        <path d="M20.5 8v3.9a9.6 9.6 0 0 1-4.8-1.9v4.4a6.2 6.2 0 1 1-7.6-6v4.1a2.4 2.4 0 1 0 3.8 1.9V3.5h3.9A5.7 5.7 0 0 0 20.5 8z" />
       </symbol>
     </svg>
   );

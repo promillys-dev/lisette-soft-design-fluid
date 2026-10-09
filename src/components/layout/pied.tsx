@@ -1,7 +1,9 @@
 import { Blob } from "@/components/ui/blob";
+import { Icon } from "@/components/ui/icones";
 import { Lien } from "@/components/ui/lien";
 import type { Forme } from "@/lib/formes";
 import { piedDePage } from "@/lib/menu";
+import { reseaux } from "@/lib/reseaux";
 
 /**
  * Bloc 12 · Pied de page, présent sur toutes les pages. La vague qui y mène est posée par la
@@ -50,10 +52,13 @@ export function Pied({ forme }: { forme: Forme }) {
           </div>
           <div>
             <h3>Réseaux</h3>
-            <ul>
-              {piedDePage.reseaux.map((reseau) => (
-                <li key={reseau}>
-                  <a href="#">{reseau}</a>
+            <ul className="pied__reseaux">
+              {reseaux.map((reseau) => (
+                <li key={reseau.id}>
+                  <Lien forme={forme} vers={{ url: reseau.url }}>
+                    <Icon name={reseau.icone} />
+                    {reseau.nom}
+                  </Lien>
                 </li>
               ))}
             </ul>

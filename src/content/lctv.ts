@@ -1,4 +1,5 @@
 import type { Page } from "@/lib/blocs";
+import { versReseau } from "@/lib/reseaux";
 
 /**
  * Menu 8 · LCTV — DocumentationLisette/LCTN_Site_Menu_08_LCTV.pdf
@@ -124,9 +125,10 @@ export const page: Page = {
       texte:
         "LCTV est aussi présente sur YouTube et sur les réseaux sociaux. Abonnez-vous pour recevoir chaque nouvelle vidéo dès sa mise en ligne.",
       boutons: [
+        // Adresse de la chaîne YouTube à fournir : le bouton reste neutre en attendant.
         { label: "S’abonner sur YouTube", style: "or" },
-        { label: "Suivre sur LinkedIn", style: "clair" },
-        { label: "Suivre sur Facebook", style: "clair" },
+        { label: "Suivre sur LinkedIn", style: "clair", vers: versReseau("linkedin") },
+        { label: "Suivre sur Facebook", style: "clair", vers: versReseau("facebook") },
       ],
     },
   ],

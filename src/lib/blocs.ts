@@ -8,12 +8,20 @@ import type { Video } from "@/lib/lctv";
 import type { PhotoId } from "@/lib/photos";
 
 /**
- * Destination d'un bouton : une page du site (slug du menu) et, au besoin, une ancre.
- * Sans `page` ni `ancre`, le lien est neutre : la ressource (PDF, vidéo, réseau social,
- * site d'une entreprise…) n'existe pas encore.
+ * Destination d'un bouton : une page du site (slug du menu) et, au besoin, une ancre ; ou bien
+ * `url`, une adresse hors des pages du site (réseau social de lib/reseaux.ts, document de
+ * lib/documents.ts), ouverte dans un nouvel onglet, ou enregistrée avec `telecharger`.
+ * Sans rien de tout cela, le lien est neutre : la ressource (PDF, vidéo, site d'une
+ * entreprise…) n'existe pas encore.
  */
-export type Cible = { page?: string; ancre?: string };
-export type Bouton = { label: string; vers?: Cible; style?: "or" | "plein" | "ligne" | "clair" };
+export type Cible = { page?: string; ancre?: string; url?: string; telecharger?: boolean };
+export type Bouton = {
+  label: string;
+  vers?: Cible;
+  style?: "or" | "plein" | "ligne" | "clair";
+  /** Pictogramme placé devant le libellé (réseau social), à la place de la flèche. */
+  icone?: IconName;
+};
 
 /**
  * Un paragraphe, une citation en exergue, une phrase mise en avant, ou un point à intitulé gras.
@@ -204,7 +212,8 @@ export type Bloc =
       themes: string[];
       tri: string[];
       recherche: string;
-      cartes: { theme: string; titre: string; accroche?: string; aVenir?: boolean }[];
+      /** `pdf` : la tribune mise en page (lib/documents.ts), à lire et à télécharger. */
+      cartes: { theme: string; titre: string; accroche?: string; parution?: string; pdf?: string; aVenir?: boolean }[];
       note?: string;
     })
   /* Salle de presse : biographies officielles en plusieurs longueurs */

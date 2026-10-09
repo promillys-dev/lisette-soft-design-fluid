@@ -11,10 +11,11 @@ export const PUBLIEE: Forme = "fluide";
 /**
  * Adresse d'une cible : /mon-parcours#racines pour la proposition publiée. Une proposition sans
  * pages intérieures renvoie au bloc de l'accueil qui annonce la page (lib/menu.ts), sinon à un
- * lien neutre (« # »).
+ * lien neutre (« # »). Une adresse hors des pages du site (`url`) est rendue telle quelle.
  */
 export function lien(forme: Forme, cible?: Cible): string {
   if (!cible) return "#";
+  if (cible.url) return cible.url;
   if (forme === PUBLIEE) {
     return `${cible.page ? `/${cible.page}` : "/"}${cible.ancre ? `#${cible.ancre}` : ""}`;
   }

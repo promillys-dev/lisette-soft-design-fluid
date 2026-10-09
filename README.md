@@ -42,6 +42,11 @@ site affiche les vignettes d'attente. Une vidéo publiée apparaît sur le site 
 - Textes des pages intérieures : `src/content/`, un fichier par page. Chaque page est une liste
   de blocs (types dans `src/lib/blocs.ts`, rendu dans `src/components/blocs/`).
 - Menu et pied de page : `src/lib/menu.ts`. Adresses des liens : `src/lib/liens.ts`.
+- Réseaux sociaux : `src/lib/reseaux.ts` (pied de page, pages Contact et LCTV). Un réseau ajouté
+  à la liste apparaît partout.
+- Documents à lire et à télécharger (PDF des tribunes) : `public/documents/`, déclarés dans
+  `src/lib/documents.ts`. Une tribune reçoit son PDF par le champ `pdf` de sa carte
+  (`src/content/tribunes.ts`, et `src/lib/content.ts` pour l'accueil).
 - Photos : `public/images/`, déclarées dans `src/lib/photos.ts`.
 - Styles : `src/styles/base.css` (socle), `forme-fluide.css` (formes et mouvements de la version
   fluide), `pages.css` (pages intérieures).

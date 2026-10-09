@@ -139,20 +139,30 @@ export function Bibliotheque({ bloc }: { bloc: B<"bibliotheque"> }) {
             <div className="tribune__haut">
               <span className="etiquette">{carte.theme}</span>
               {carte.aVenir && <span className="etiquette etiquette--trait">À paraître</span>}
+              {carte.parution && <span className="tribune__rang">{carte.parution}</span>}
             </div>
             <h3>{carte.titre}</h3>
             <p className="tribune__signature">Par {SIGNATURE}</p>
             {carte.accroche && <p>{carte.accroche}</p>}
+            {/* Sans PDF, les deux liens restent neutres : le texte intégral n'est pas encore fourni. */}
             {!carte.aVenir && (
               <div className="tribune__actions">
-                <a className="lien" href="#">
+                <Vers
+                  vers={carte.pdf ? { url: carte.pdf } : undefined}
+                  className="lien"
+                  aria-label={`Lire la tribune : ${carte.titre}${carte.pdf ? " (PDF, nouvel onglet)" : ""}`}
+                >
                   Lire
                   <Icon name="arrow" />
-                </a>
-                <a className="lien" href="#">
+                </Vers>
+                <Vers
+                  vers={carte.pdf ? { url: carte.pdf, telecharger: true } : undefined}
+                  className="lien"
+                  aria-label={`Télécharger la tribune en PDF : ${carte.titre}`}
+                >
                   Télécharger
-                  <Icon name="arrow" />
-                </a>
+                  <Icon name="download" />
+                </Vers>
               </div>
             )}
             <span className="tribune__guillemet" aria-hidden="true">

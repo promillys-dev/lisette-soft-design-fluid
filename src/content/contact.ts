@@ -1,4 +1,5 @@
 import type { Page } from "@/lib/blocs";
+import { reseaux } from "@/lib/reseaux";
 import { confirmation } from "./commun";
 
 /** Menu 10 · Contact — DocumentationLisette/LCTN_Site_Menu_10_Contact.pdf */
@@ -193,13 +194,12 @@ export const page: Page = {
       surtitre: "Réseaux sociaux",
       titre: "Suivez mon actualité",
       corps: ["Je partage régulièrement mes réflexions, la vie de nos usines et les grandes étapes de nos projets."],
-      boutons: [
-        { label: "LinkedIn", style: "ligne" },
-        { label: "Facebook", style: "ligne" },
-        { label: "YouTube LCTV", style: "ligne" },
-        { label: "Instagram", style: "ligne" },
-        { label: "X", style: "ligne" },
-      ],
+      boutons: reseaux.map((reseau) => ({
+        label: reseau.nom,
+        icone: reseau.icone,
+        vers: { url: reseau.url },
+        style: "ligne",
+      })),
     },
     {
       type: "lettre",

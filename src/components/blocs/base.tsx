@@ -183,8 +183,13 @@ export function Boutons({
         const style = voulu === "clair" && !sombre ? "ligne" : voulu;
         return (
           <Vers vers={bouton.vers} className={cn("btn", STYLES[style])} key={bouton.label}>
+            {bouton.icone && (
+              <span className="btn__picto">
+                <Icon name={bouton.icone} />
+              </span>
+            )}
             {bouton.label}
-            <Icon name="arrow" />
+            {!bouton.icone && <Icon name={bouton.vers?.telecharger ? "download" : "arrow"} />}
           </Vers>
         );
       })}

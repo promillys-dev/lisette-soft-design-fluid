@@ -145,7 +145,7 @@ export const utilitaires = {
   medias: { label: "Espace médias", vers: { page: "salle-de-presse" } },
 };
 
-/** Pied de page. Les réseaux sociaux restent des liens neutres tant que les comptes ne sont pas fournis. */
+/** Pied de page. Sa colonne « Réseaux » vient de lib/reseaux.ts. */
 export const piedDePage = {
   liens: [...menu, contact].map((item) => ({
     label: item.slug === "expertise-etats" ? item.court : item.titre,
@@ -156,7 +156,6 @@ export const piedDePage = {
     { label: "Contact presse", vers: { page: "salle-de-presse", ancre: "contact-presse" } },
     { label: "Invitations et conférences", vers: { page: "contact", ancre: "conferences" } },
   ],
-  reseaux: ["LinkedIn", "Facebook", "YouTube LCTV", "Instagram", "X"],
   mentions: [
     { label: "Mentions légales", vers: { page: "mentions-legales" } },
     { label: "Politique de confidentialité", vers: { page: "politique-de-confidentialite" } },

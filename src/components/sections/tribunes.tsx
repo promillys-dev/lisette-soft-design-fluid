@@ -36,7 +36,11 @@ export function Tribunes({ forme }: { forme: Forme }) {
               </div>
               <h3>{tribune.titre}</h3>
               <p>{tribune.accroche}</p>
-              <Lien forme={forme} vers={{ page: "tribunes", ancre: "bibliotheque" }} className="lien">
+              <Lien
+                forme={forme}
+                vers={tribune.pdf ? { url: tribune.pdf } : { page: "tribunes", ancre: "bibliotheque" }}
+                className="lien"
+              >
                 Lire la tribune
                 <Icon name="arrow" />
               </Lien>

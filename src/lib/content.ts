@@ -4,6 +4,7 @@
  * restent dans les sections ; ici, les données répétées en listes.
  */
 import type { IconName } from "@/components/ui/icones";
+import { documents } from "@/lib/documents";
 import type { PhotoId } from "@/lib/photos";
 
 export const seo = {
@@ -151,25 +152,30 @@ export const vignettes: { rubrique: string; titre: string; detail: string; image
   },
 ];
 
-/* Bloc 9 · Tribunes (les trois premières cartes du menu Tribunes) */
-export const tribunes: { theme: string; titre: string; accroche: string }[] = [
+/*
+ * Bloc 9 · Tribunes (les trois premières cartes du menu Tribunes). `pdf` : la tribune mise en
+ * page, que la carte ouvre directement ; sans lui, elle renvoie à la bibliothèque des tribunes.
+ */
+export const tribunes: { theme: string; titre: string; accroche: string; pdf?: string }[] = [
   {
-    theme: "Industrialisation",
-    titre: "Le Cameroun n’a pas besoin de discours. Il a besoin d’usines.",
+    theme: "Territoires",
+    titre: "Le développement du Cameroun par les régions",
     accroche:
-      "L’industrialisation n’est pas un horizon lointain réservé aux pays riches. C’est un choix, que le Cameroun peut faire aujourd’hui.",
+      "Aucune grande économie ne s’est construite depuis sa seule capitale. Voici pourquoi le Cameroun doit faire de ses dix régions le moteur de son industrialisation.",
+    pdf: documents.tribuneRegions,
   },
   {
     theme: "Industrialisation de l’Afrique",
     titre: "L’Afrique ne se développera pas sans ses industriels",
     accroche:
       "Ni l’aide internationale ni les politiques fiscales ne construisent d’usines à notre place. Plaidoyer pour une industrialisation portée de l’intérieur.",
+    pdf: documents.tribuneIndustriels,
   },
   {
-    theme: "Transformation locale",
-    titre: "Ce que j’ai compris en voyant les autres transformer notre cacao",
+    theme: "Industrialisation",
+    titre: "Le Cameroun n’a pas besoin de discours. Il a besoin d’usines.",
     accroche:
-      "Ma vocation est née loin du Cameroun, devant des lignes de production où l’on transformait du cacao camerounais. Récit d’une évidence qui a décidé de tout.",
+      "L’industrialisation n’est pas un horizon lointain réservé aux pays riches. C’est un choix, que le Cameroun peut faire aujourd’hui.",
   },
 ];
 
