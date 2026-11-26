@@ -25,50 +25,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#F7F3EA" };
 
 export default function Layout({ children }: Readonly<{ children: ReactNode }>) {
-  const donneesStructurees = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://lisetteclaudiatame.com/#website",
-        url: "https://lisetteclaudiatame.com/",
-        name: "Lisette Claudia TAME NJAMBE",
-        inLanguage: "fr-CM",
-      },
-      {
-        "@type": "Person",
-        "@id": "https://lisetteclaudiatame.com/#person",
-        name: "Lisette Claudia TAME NJAMBE",
-        url: "https://lisetteclaudiatame.com/",
-        image: "https://lisetteclaudiatame.com/images/portrait-lctn.jpg",
-        jobTitle: "Industrielle",
-        description: seo.description,
-        sameAs: [
-          "https://www.linkedin.com/in/lisette-claudia-tame-51857113a",
-          "https://www.facebook.com/lisetteclaudiatame",
-          "https://www.instagram.com/lisette_claudia_tame/",
-          "https://www.tiktok.com/discover/lisette-claudia-tame",
-        ],
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://lisetteclaudiatame.com/#apc",
-        name: "Africa Processing Company SA",
-        url: "https://lisetteclaudiatame.com/",
-        founder: { "@id": "https://lisetteclaudiatame.com/#person" },
-      },
-    ],
-  };
-
   return (
     <Document forme="fluide">
       <Coquille forme="fluide">{children}</Coquille>
-      <Script
-        id="donnees-structurees"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(donneesStructurees) }}
-      />
       {/* Chatbot IA : widget externe, isolé dans un Shadow DOM, chargé une fois la page prête.
           `data-site` désigne ce site dans l'administration du chatbot. */}
       <Script

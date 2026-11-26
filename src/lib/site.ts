@@ -12,7 +12,7 @@ export const SITE = (
   process.env.SITE_URL ??
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "https://lisette-soft-design-fluid.vercel.app")
+    : "https://lisetteclaudiatame.com")
 ).replace(/\/$/, "");
 
 /** Image des liens partagés : public/partage.jpg, produite par scripts/generer-images.py. */
