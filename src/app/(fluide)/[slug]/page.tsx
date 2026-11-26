@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Blocs } from "@/components/blocs";
 import { pages } from "@/content";
 import { avecVideos, chargerLctv } from "@/lib/lctv";
+import { metadonnees } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -14,7 +15,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = pages[(await params).slug];
   return page
-    ? { title: page.titre, description: page.description }
+    ? metadonnees({ titre: page.titre, description: page.description, chemin: `/${page.slug}` })
     : { title: "Page introuvable | Lisette Claudia TAME NJAMBE" };
 }
 

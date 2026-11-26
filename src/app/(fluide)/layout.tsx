@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Coquille } from "@/components/layout/coquille";
 import { Document } from "@/components/layout/document";
 import { seo } from "@/lib/content";
+import { metadonnees, NOM, SITE } from "@/lib/site";
 import "@/styles/base.css";
 import "@/styles/blobs.css";
 import "@/styles/forme-fluide.css";
@@ -11,9 +12,13 @@ import "@/styles/pages.css";
 
 // Le site : proposition fluide, servie à la racine (accueil et pages intérieures).
 // L'autre proposition est rangée, hors routes, dans src/app/_propositions.
+// Chaque page reprend ces valeurs avec ses propres titre, description et adresse canonique
+// (lib/site.ts) ; icônes et image de partage viennent des fichiers de src/app.
 export const metadata: Metadata = {
-  title: seo.title,
-  description: seo.description,
+  metadataBase: new URL(SITE),
+  ...metadonnees({ titre: seo.title, description: seo.description, chemin: "/" }),
+  applicationName: NOM,
+  authors: [{ name: NOM, url: SITE }],
   // Propriété du site dans Google Search Console : <meta name="google-site-verification">, sur toutes les pages.
   verification: { google: "mDaltgVeEizuh_M7mtGBJzULzgu4dU38d5Wh9hVBqtY" },
 };
