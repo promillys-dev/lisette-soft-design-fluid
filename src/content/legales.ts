@@ -3,18 +3,28 @@ import type { Page } from "@/lib/blocs";
 /**
  * Pages légales — DocumentationLisette/LCTN_Site_Pages_legales.pdf
  * Modèles rédigés selon les usages du RGPD et du droit camerounais : à faire relire par un
- * juriste avant la mise en ligne. Les passages entre crochets restent à compléter.
+ * juriste. Les passages entre crochets restent à compléter.
+ *
+ * Ce qu'ils décrivent, vérifié sur le site en ligne le 26 novembre 2026 :
+ * - le site est servi par Vercel (États-Unis) ; la messagerie du domaine, l'administration
+ *   WordPress (vidéos de LCTV) et le serveur de l'assistant conversationnel sont chez o2switch ;
+ * - le site ne dépose aucun cookie et n'a ni mesure d'audience ni bandeau de consentement ;
+ * - l'assistant ne dépose rien non plus (identifiant de conversation gardé en mémoire), mais
+ *   peut recueillir nom, téléphone et adresse électronique ;
+ * - les vidéos YouTube sont lues en mode youtube-nocookie, chargé au clic ; leurs vignettes
+ *   viennent de i.ytimg.com.
  */
-const MAJ = "Dernière mise à jour : 1er octobre 2026.";
+const MAJ = "Dernière mise à jour : 26 novembre 2026.";
 
 export const mentionsLegales: Page = {
   slug: "mentions-legales",
   titre: "Mentions légales | Lisette Claudia TAME NJAMBE",
-  description: "Éditeur, directrice de la publication, hébergeur et conditions de reprise des contenus du site officiel de Lisette Claudia TAME NJAMBE.",
+  description: "Éditeur, directrice de la publication, hébergeurs et conditions de reprise des contenus du site officiel de Lisette Claudia TAME NJAMBE.",
   blocs: [
     { type: "entete", surtitre: "Mentions légales", titre: "Mentions légales", intro: ["Qui publie ce site, qui l’héberge et dans quelles conditions ses contenus peuvent être repris."] },
     {
       type: "juridique",
+      maj: MAJ,
       sections: [
         {
           titre: "Éditeur du site",
@@ -24,9 +34,17 @@ export const mentionsLegales: Page = {
         },
         { titre: "Directrice de la publication", corps: ["Lisette Claudia TAME NJAMBE."] },
         {
-          titre: "Hébergeur",
+          titre: "Hébergement",
           corps: [
-            "Le site est hébergé par o2switch, société établie en France, Chemin des Pardiaux, 63000 Clermont-Ferrand. Site : www.o2switch.fr.",
+            {
+              point: "Le site :",
+              texte: "Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis. Site : vercel.com.",
+            },
+            {
+              point: "La messagerie, l’espace d’administration des vidéos de LCTV et l’assistant conversationnel :",
+              texte:
+                "o2switch, SAS au capital de 100 000 €, RCS Clermont-Ferrand 510 909 807, Chemin des Pardiaux, 63000 Clermont-Ferrand, France. Téléphone : 04 44 44 60 40. Site : www.o2switch.fr.",
+            },
           ],
         },
         {
@@ -42,20 +60,24 @@ export const mentionsLegales: Page = {
         },
         {
           titre: "Crédits photographiques et vidéo",
-          corps: [
-            "Team Communication Lisette Claudia TAME NJAMBE. Les crédits propres à chaque image sont indiqués dans la photothèque.",
-          ],
+          corps: ["Sauf mention contraire : Team Communication Lisette Claudia TAME NJAMBE."],
         },
         {
           titre: "Liens vers d’autres sites",
           corps: [
-            "Ce site contient des liens vers des sites tiers, en particulier dans la revue de presse. Ces sites sont publiés sous la seule responsabilité de leurs éditeurs. L’éditeur du présent site n’exerce aucun contrôle sur leur contenu et ne saurait en être tenu responsable.",
+            "Ce site contient des liens vers des sites tiers, en particulier dans la revue de presse, et vers les comptes de Lisette Claudia TAME NJAMBE sur les réseaux sociaux. Ces sites sont publiés sous la seule responsabilité de leurs éditeurs. L’éditeur du présent site n’exerce aucun contrôle sur leur contenu et ne saurait en être tenu responsable.",
           ],
         },
         {
           titre: "Responsabilité",
           corps: [
             "L’éditeur s’efforce d’assurer l’exactitude et la mise à jour des informations publiées. Il ne peut toutefois garantir l’absence d’erreur ou d’omission. Les informations relatives aux projets à venir sont données à titre indicatif et peuvent évoluer.",
+          ],
+        },
+        {
+          titre: "Données personnelles et cookies",
+          corps: [
+            "Les données recueillies sur ce site et la manière d’exercer vos droits sont décrites dans la politique de confidentialité. Les cookies sont traités dans la page Gestion des cookies.",
           ],
         },
         {
@@ -123,11 +145,17 @@ export const confidentialite: Page = {
                 "Adresse électronique. Finalité : vous envoyer les publications auxquelles vous vous êtes abonné. Fondement : votre consentement, que vous pouvez retirer à tout moment.",
             },
             {
-              point: "Mesure d’audience.",
+              point: "Assistant conversationnel.",
               texte:
-                "Données de navigation : pages consultées, durée de visite, type d’appareil, pays de connexion. Finalité : comprendre l’usage du site et l’améliorer. Fondement : votre consentement, recueilli par le bandeau cookies.",
+                "Les questions que vous posez à l’assistant du site et, seulement si vous choisissez de les indiquer, votre nom, votre téléphone et votre adresse électronique. Finalité : répondre à vos questions et, à votre demande, vous recontacter. Fondement : démarches engagées à votre demande. Les réponses de l’assistant sont produites automatiquement par [service d’intelligence artificielle].",
+            },
+            {
+              point: "Données techniques de connexion.",
+              texte:
+                "À chaque visite, l’hébergeur du site enregistre des données techniques : adresse IP, pages demandées, date et heure, type de navigateur. Finalité : faire fonctionner le site et le protéger contre les abus. Fondement : intérêt légitime à assurer la sécurité du site.",
             },
             "Nous ne recueillons que les données nécessaires. Les champs obligatoires sont signalés dans chaque formulaire. Ce site ne demande aucune donnée sensible et nous vous invitons à ne pas en communiquer dans vos messages.",
+            "Le site n’utilise aucun outil de mesure d’audience ni de publicité.",
           ],
         },
         {
@@ -135,27 +163,32 @@ export const confidentialite: Page = {
           corps: [
             { point: "Demandes reçues par formulaire :", texte: "3 ans à compter du dernier échange, puis suppression." },
             { point: "Lettre d’information et communiqués :", texte: "jusqu’à votre désinscription." },
-            { point: "Données de mesure d’audience :", texte: "13 mois au maximum." },
-            { point: "Votre choix concernant les cookies :", texte: "6 mois, après quoi il vous est redemandé." },
+            { point: "Conversations avec l’assistant et coordonnées laissées :", texte: "[durée de conservation]." },
+            {
+              point: "Données techniques de connexion :",
+              texte: "durée limitée, fixée par l’hébergeur pour assurer la sécurité du site.",
+            },
           ],
         },
         {
           titre: "4. Qui a accès à vos données",
           corps: [
             "Vos données sont destinées au cabinet de Lisette Claudia TAME NJAMBE et aux seules personnes chargées de traiter votre demande. Elles ne sont jamais vendues, louées ni cédées à des tiers à des fins commerciales.",
-            "Elles peuvent être traitées, pour notre compte et selon nos instructions, par des prestataires techniques : o2switch, hébergeur du site, [outil d’envoi de la lettre d’information], [outil de mesure d’audience].",
+            "Elles peuvent être traitées, pour notre compte et selon nos instructions, par des prestataires techniques : Vercel, hébergeur du site ; o2switch, qui héberge la messagerie, l’espace d’administration et l’assistant conversationnel ; [service d’intelligence artificielle], qui produit les réponses de l’assistant ; [outil d’envoi de la lettre d’information].",
+            "Les vidéos de LCTV sont hébergées par YouTube (Google). Leurs vignettes sont chargées depuis les serveurs de YouTube, et son lecteur ne l’est que lorsque vous lancez une vidéo. YouTube traite alors les données de connexion pour son propre compte, selon sa politique de confidentialité.",
           ],
         },
         {
           titre: "5. Transferts hors de votre pays",
           corps: [
-            "Le site et les données recueillies par ses formulaires sont hébergés en France, par o2switch. D’autres prestataires peuvent être établis hors du Cameroun ou hors de l’Union européenne. Dans ce cas, nous veillons à ce que le transfert soit encadré par les garanties prévues par la réglementation applicable. [À préciser une fois choisis l’outil de lettre d’information et l’outil de mesure d’audience.]",
+            "Le site est hébergé aux États-Unis par Vercel Inc. Vercel adhère au cadre de protection des données UE – États-Unis (Data Privacy Framework) et encadre ses transferts par les clauses contractuelles types de la Commission européenne.",
+            "La messagerie, l’espace d’administration et l’assistant conversationnel sont hébergés en France, par o2switch. [Pays d’établissement du service d’intelligence artificielle et garanties encadrant le transfert.]",
           ],
         },
         {
           titre: "6. Comment nous protégeons vos données",
           corps: [
-            "Le site utilise une connexion sécurisée (https). L’accès aux données est limité aux personnes habilitées et protégé par mot de passe. Des sauvegardes régulières sont effectuées par l’hébergeur.",
+            "Le site et l’assistant utilisent une connexion sécurisée (https). L’accès aux données est limité aux personnes habilitées et protégé par mot de passe. Des sauvegardes régulières sont effectuées par l’hébergeur.",
           ],
         },
         {
@@ -167,11 +200,17 @@ export const confidentialite: Page = {
           ],
         },
         {
-          titre: "8. Mineurs",
+          titre: "8. Cookies",
+          corps: [
+            "Le site ne dépose lui-même aucun cookie. Seul YouTube peut en déposer, lorsque vous lancez une vidéo de LCTV : la page Gestion des cookies en donne le détail.",
+          ],
+        },
+        {
+          titre: "9. Mineurs",
           corps: ["Ce site ne s’adresse pas spécifiquement aux mineurs et ne recueille pas sciemment leurs données."],
         },
         {
-          titre: "9. Modification de cette politique",
+          titre: "10. Modification de cette politique",
           corps: [
             "Cette politique peut être mise à jour. La date de dernière mise à jour figure ci-dessous. En cas de changement important, une information sera affichée sur le site.",
           ],
@@ -184,69 +223,68 @@ export const confidentialite: Page = {
 export const cookies: Page = {
   slug: "gestion-des-cookies",
   titre: "Gestion des cookies | Lisette Claudia TAME NJAMBE",
-  description: "Les cookies utilisés sur le site de Lisette Claudia TAME NJAMBE, leur durée de vie et la manière de modifier vos choix.",
+  description: "Les cookies sur le site de Lisette Claudia TAME NJAMBE : aucun cookie déposé par le site, ceux de YouTube à la lecture d’une vidéo, et la manière de les refuser.",
   blocs: [
     {
       type: "entete",
       surtitre: "Gestion des cookies",
       titre: "Politique de gestion des cookies",
-      intro: ["Cette page complète le bandeau de consentement affiché à votre première visite."],
+      intro: [
+        "Ce site ne dépose aucun cookie publicitaire ni de mesure d’audience. Cette page décrit le seul cas où un service tiers peut en déposer, et comment l’éviter.",
+      ],
     },
     {
       type: "juridique",
+      maj: MAJ,
       sections: [
         {
           titre: "Qu’est-ce qu’un cookie",
           corps: [
-            "Un cookie est un petit fichier déposé sur votre appareil lorsque vous consultez un site. Il permet, par exemple, de mémoriser vos préférences, de mesurer la fréquentation ou d’afficher une vidéo.",
+            "Un cookie est un petit fichier déposé sur votre appareil lorsque vous consultez un site. Il permet, par exemple, de mémoriser vos préférences, de mesurer la fréquentation ou d’afficher une vidéo. Les mêmes règles s’appliquent aux autres traceurs, comme le stockage local du navigateur.",
           ],
         },
         {
-          titre: "Les cookies utilisés sur ce site",
+          titre: "Ce que dépose le site",
           corps: [
-            {
-              point: "Cookies strictement nécessaires.",
-              texte:
-                "Ils assurent le fonctionnement du site : choix de la langue, sécurité des formulaires, mémorisation de votre choix en matière de cookies. Ils ne nécessitent pas votre consentement.",
-            },
-            {
-              point: "Cookies de mesure d’audience.",
-              texte:
-                "Ils nous aident à savoir quelles pages sont consultées, afin d’améliorer le site. Outil utilisé : [nom de l’outil]. Ils ne sont déposés qu’avec votre accord.",
-            },
-            {
-              point: "Cookies liés aux vidéos.",
-              texte:
-                "Les vidéos de LCTV sont hébergées sur YouTube. Leur lecture peut entraîner le dépôt de cookies par YouTube (Google). Ils ne sont déposés qu’avec votre accord. Sans accord, la vidéo est remplacée par une image et un bouton vous permettant de l’autoriser.",
-            },
-            {
-              point: "Cookies liés aux cartes et aux réseaux sociaux.",
-              texte:
-                "La carte interactive des sites et les boutons de partage peuvent faire appel à des services tiers : [noms]. Ils ne sont activés qu’avec votre accord.",
-            },
+            "Rien. Le site ne dépose aucun cookie et n’utilise pas le stockage de votre navigateur. Ses polices de caractères sont servies par le site lui-même, sans appel à un service extérieur.",
+            "L’assistant conversationnel ne dépose rien non plus : la conversation est rattachée à un identifiant temporaire, gardé en mémoire et effacé à la fermeture de la page.",
+          ],
+        },
+        {
+          titre: "Les vidéos de LCTV",
+          corps: [
+            "Les vidéos de LCTV sont hébergées sur YouTube et lues en mode « confidentialité renforcée » (youtube-nocookie.com). Le lecteur n’est chargé que lorsque vous cliquez sur une vidéo. Les vignettes affichées avant la lecture proviennent des serveurs d’images de YouTube, qui ne déposent pas de cookie.",
+            "Une fois la lecture lancée, YouTube (Google) peut déposer des cookies ou utiliser le stockage de votre navigateur, selon sa propre politique de confidentialité (policies.google.com/privacy). Si vous ne souhaitez pas de ces traceurs, il suffit de ne pas lancer les vidéos : le reste du site reste entièrement accessible.",
+          ],
+        },
+        {
+          titre: "Les réseaux sociaux",
+          corps: [
+            "Les liens vers LinkedIn, Facebook, Instagram et TikTok sont de simples liens. Aucun bouton de partage ni module de ces réseaux n’est chargé sur le site : ils ne déposent rien tant que vous ne vous rendez pas sur leurs pages.",
           ],
         },
         {
           titre: "Ce que nous n’utilisons pas",
-          corps: ["Ce site n’utilise aucun cookie publicitaire et ne revend aucune donnée de navigation."],
-        },
-        {
-          titre: "Durée de vie",
           corps: [
-            "Les cookies soumis à consentement ont une durée de vie maximale de 13 mois. Votre choix est conservé 6 mois.",
-          ],
-        },
-        {
-          titre: "Modifier vos choix",
-          corps: [
-            "Vous pouvez à tout moment accepter, refuser ou personnaliser les cookies en cliquant sur le lien « Gestion des cookies » présent en bas de chaque page.",
-            "Vous pouvez aussi configurer votre navigateur pour bloquer ou supprimer les cookies. Le refus des cookies non nécessaires ne vous empêche pas de consulter le site.",
+            "Ce site n’utilise aucun cookie publicitaire, aucun outil de mesure d’audience et ne revend aucune donnée de navigation.",
+            "Comme aucun traceur n’est déposé sans action de votre part, le site n’affiche pas de bandeau de consentement. Si un outil de mesure d’audience devait être ajouté, votre accord serait demandé au préalable et cette page mise à jour.",
           ],
         },
         {
           titre: "Tableau des cookies",
           corps: [
-            "[Tableau à compléter par le prestataire technique une fois le site construit : nom du cookie, fournisseur, finalité, durée.]",
+            { point: "Site lisetteclaudiatame.com :", texte: "aucun cookie." },
+            { point: "Assistant conversationnel :", texte: "aucun cookie ; identifiant de conversation gardé en mémoire le temps de la visite." },
+            {
+              point: "YouTube (Google), à la lecture d’une vidéo :",
+              texte: "cookies et stockage local de YouTube, dont la finalité et la durée sont fixées par Google.",
+            },
+          ],
+        },
+        {
+          titre: "Supprimer ou bloquer les cookies",
+          corps: [
+            "Vous pouvez configurer votre navigateur pour bloquer ou supprimer les cookies, y compris ceux de YouTube. Cela ne vous empêche pas de consulter le site.",
           ],
         },
       ],
@@ -295,6 +333,20 @@ export const conditions: Page = {
           corps: [
             "Les personnes qui utilisent les formulaires s’engagent à fournir des informations exactes et à ne pas transmettre de contenu illicite ou injurieux.",
           ],
+        },
+        {
+          titre: "Assistant conversationnel",
+          corps: [
+            "Le site propose un assistant qui répond automatiquement aux questions des visiteurs. Ses réponses sont produites par un programme d’intelligence artificielle : elles peuvent être incomplètes ou inexactes et n’engagent pas Lisette Claudia TAME NJAMBE. Pour toute demande officielle, utilisez les formulaires de la page Contact.",
+          ],
+        },
+        {
+          titre: "Données personnelles",
+          corps: ["Les données recueillies sur le site sont traitées comme l’explique la politique de confidentialité."],
+        },
+        {
+          titre: "Droit applicable",
+          corps: ["Ces conditions sont soumises au droit camerounais, comme le précisent les mentions légales."],
         },
         {
           titre: "Évolution",
