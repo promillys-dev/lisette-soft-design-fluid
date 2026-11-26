@@ -51,6 +51,22 @@ site affiche les vignettes d'attente. Une vidéo publiée apparaît sur le site 
 - Styles : `src/styles/base.css` (socle), `forme-fluide.css` (formes et mouvements de la version
   fluide), `pages.css` (pages intérieures).
 
+## Référencement
+
+- `/robots.txt` (`src/app/robots.ts`) ouvre tout le site et indique le plan du site ;
+  `/sitemap.xml` (`src/app/sitemap.ts`) liste l'accueil, les pages et les tribunes en PDF.
+- Adresse publique du site : `src/lib/site.ts`. Sur Vercel, c'est le domaine de production du
+  projet ; pour un domaine définitif, le fixer avec la variable d'environnement
+  `SITE_URL=https://…` puis redéployer. Adresses canoniques, aperçus de partage et plan du site
+  la reprennent.
+- Chaque page porte son titre, sa description, son adresse canonique et son aperçu de partage
+  (`metadonnees()` dans `src/lib/site.ts`). L'accueil déclare en plus, en données structurées
+  (schema.org), la personne du site et ses comptes officiels.
+- Icônes (`src/app/icon.svg`, `favicon.ico`, `apple-icon.png`) et image de partage
+  (`public/partage.jpg`) : produites par `python scripts/generer-images.py`, après un
+  `npm run dev` ou `npm run build` (le script reprend les polices du site dans `.next`).
+- Google Search Console : la balise de vérification est dans `src/app/(fluide)/layout.tsx`.
+
 L'autre proposition de page d'accueil (« Formes et blobs ») est conservée hors routes dans
 `src/app/_propositions/`, avec sa feuille `src/styles/forme-formes.css`.
 

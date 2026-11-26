@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Blocs } from "@/components/blocs";
 import { pages } from "@/content";
 import { avecVideos, chargerLctv } from "@/lib/lctv";
+import { metadonnees } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -14,23 +15,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = pages[(await params).slug];
   return page
-    ? {
-        title: page.titre,
-        description: page.description,
-        alternates: { canonical: `/${page.slug}` },
-        openGraph: {
-          type: "website",
-          locale: "fr_CM",
-          url: `/${page.slug}`,
-          title: page.titre,
-          description: page.description,
-          images: [{ url: "/images/portrait-lctn.jpg", width: 788, height: 1044, alt: page.titre }],
-        },
-      }
-    : {
-        title: "Page introuvable | Lisette Claudia TAME NJAMBE",
-        robots: { index: false, follow: false },
-      };
+    ? metadonnees({ titre: page.titre, description: page.description, chemin: `/${page.slug}` })
+    : { title: "Page introuvable | Lisette Claudia TAME NJAMBE" };
 }
 
 export default async function Page({ params }: Props) {
