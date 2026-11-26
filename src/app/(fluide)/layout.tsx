@@ -11,7 +11,12 @@ import "@/styles/pages.css";
 
 // Le site : proposition fluide, servie à la racine (accueil et pages intérieures).
 // L'autre proposition est rangée, hors routes, dans src/app/_propositions.
-export const metadata: Metadata = { title: seo.title, description: seo.description };
+export const metadata: Metadata = {
+  title: seo.title,
+  description: seo.description,
+  // Propriété du site dans Google Search Console : <meta name="google-site-verification">, sur toutes les pages.
+  verification: { google: "mDaltgVeEizuh_M7mtGBJzULzgu4dU38d5Wh9hVBqtY" },
+};
 export const viewport: Viewport = { themeColor: "#F7F3EA" };
 
 export default function Layout({ children }: Readonly<{ children: ReactNode }>) {
