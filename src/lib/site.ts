@@ -15,6 +15,20 @@ export const SITE = (
     : "https://lisetteclaudiatame.com")
 ).replace(/\/$/, "");
 
+/**
+ * Icônes du site, produites par scripts/generer-images.py. Elles sont servies depuis public/ pour
+ * que leurs adresses ne changent pas d'un déploiement à l'autre : Google exige une adresse stable
+ * pour afficher l'icône dans ses résultats, et il ne lit pas le SVG (d'où l'ICO et le PNG 192 px).
+ */
+export const ICONES: Metadata["icons"] = {
+  icon: [
+    { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+    { url: "/icon.svg", type: "image/svg+xml" },
+    { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+  ],
+  apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+};
+
 /** Image des liens partagés : public/partage.jpg, produite par scripts/generer-images.py. */
 const PARTAGE = {
   url: "/partage.jpg",

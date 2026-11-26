@@ -62,9 +62,13 @@ site affiche les vignettes d'attente. Une vidéo publiée apparaît sur le site 
 - Chaque page porte son titre, sa description, son adresse canonique et son aperçu de partage
   (`metadonnees()` dans `src/lib/site.ts`). L'accueil déclare en plus, en données structurées
   (schema.org), la personne du site et ses comptes officiels.
-- Icônes (`src/app/icon.svg`, `favicon.ico`, `apple-icon.png`) et image de partage
-  (`public/partage.jpg`) : produites par `python scripts/generer-images.py`, après un
-  `npm run dev` ou `npm run build` (le script reprend les polices du site dans `.next`).
+- Nom du site dans les résultats de Google (à la place du domaine) : bloc `WebSite` des données
+  structurées de l'accueil (`src/app/(fluide)/page.tsx`), avec le même nom que `og:site_name`.
+- Icônes (`public/favicon.ico`, `icon.svg`, `icon-192.png`, `apple-touch-icon.png`) et image de
+  partage (`public/partage.jpg`) : produites par `python scripts/generer-images.py`, après un
+  `npm run dev` ou `npm run build` (le script reprend les polices du site dans `.next`). Elles
+  restent dans `public/`, déclarées par `ICONES` (`src/lib/site.ts`) : leurs adresses ne changent
+  pas d'un déploiement à l'autre, condition de Google pour afficher l'icône dans ses résultats.
 - Google Search Console : la balise de vérification est dans `src/app/(fluide)/layout.tsx`.
 
 L'autre proposition de page d'accueil (« Formes et blobs ») est conservée hors routes dans

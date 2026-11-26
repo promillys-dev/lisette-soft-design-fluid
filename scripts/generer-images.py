@@ -1,11 +1,14 @@
 """
 Images de présentation du site, générées une fois puis versionnées :
 
-  src/app/icon.svg         icône de l'onglet (et de Google) : un galet brun, un « L » ivoire, le point doré
-  src/app/favicon.ico      la même, en 16, 32 et 48 px, pour les navigateurs qui demandent /favicon.ico
-  src/app/apple-icon.png   écran d'accueil iOS (180 px, fond plein)
-  public/partage.jpg       aperçu des liens partagés (LinkedIn, Facebook, WhatsApp, X) : 1200 × 630,
-                           déclaré sur chaque page par src/lib/site.ts
+  public/icon.svg              icône de l'onglet : un galet brun, un « L » ivoire, le point doré
+  public/favicon.ico           la même, en 16, 32 et 48 px (navigateurs, Google)
+  public/icon-192.png          la même, en 192 px (Google, qui ne lit pas le SVG ; Android)
+  public/apple-touch-icon.png  écran d'accueil iOS (180 px, fond plein)
+  public/partage.jpg           aperçu des liens partagés (LinkedIn, Facebook, WhatsApp, X) : 1200 × 630
+
+Toutes sont déclarées par src/lib/site.ts. Elles restent dans public/ pour garder des adresses fixes
+d'un déploiement à l'autre, comme Google le demande pour l'icône des résultats de recherche.
 
 Lancer après un `npm run dev` ou un `npm run build`, qui téléchargent les polices du site
 (Cormorant Garamond, Mulish) dans .next ; le script les y retrouve par leur nom :
@@ -30,7 +33,7 @@ from fontTools.varLib.instancer import instantiateVariableFont
 from PIL import Image, ImageDraw, ImageFont
 
 RACINE = Path(__file__).resolve().parent.parent
-SORTIE = RACINE / "src" / "app"
+SORTIE = RACINE / "public"
 
 # Palette « Ivoire éditorial » (src/styles/base.css)
 IVOIRE = "#f7f3ea"
@@ -281,7 +284,7 @@ def partage():
     contour = polygone(beziers(forme))
     xs, ys = [p[0] for p in contour], [p[1] for p in contour]
     boite = (min(xs), min(ys), max(xs), max(ys))
-    photo = Image.open(RACINE / "public" / "images" / "portrait-lctn.jpg").convert("RGB")
+    photo = Image.open(SORTIE / "images" / "portrait-lctn.jpg").convert("RGB")
     l, h = (boite[2] - boite[0]) * X, (boite[3] - boite[1]) * X
     echelle = max(l / photo.width, h / photo.height)
     photo = photo.resize((round(photo.width * echelle), round(photo.height * echelle)), Image.LANCZOS)
@@ -339,7 +342,8 @@ def partage():
 
 (SORTIE / "icon.svg").write_text(icone_svg(), encoding="utf-8", newline="\n")
 icone_pixels(256).save(SORTIE / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
-icone_pixels(180, plein=True).convert("RGB").save(SORTIE / "apple-icon.png", optimize=True)
-partage().save(RACINE / "public" / "partage.jpg", quality=86, optimize=True, progressive=True)
-for chemin in ("src/app/icon.svg", "src/app/favicon.ico", "src/app/apple-icon.png", "public/partage.jpg"):
-    print(f"{chemin} : {os.path.getsize(RACINE / chemin) // 1024 or 1} Ko")
+icone_pixels(192).save(SORTIE / "icon-192.png", optimize=True)
+icone_pixels(180, plein=True).convert("RGB").save(SORTIE / "apple-touch-icon.png", optimize=True)
+partage().save(SORTIE / "partage.jpg", quality=86, optimize=True, progressive=True)
+for nom in ("icon.svg", "favicon.ico", "icon-192.png", "apple-touch-icon.png", "partage.jpg"):
+    print(f"public/{nom} : {os.path.getsize(SORTIE / nom) // 1024 or 1} Ko")

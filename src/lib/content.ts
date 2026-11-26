@@ -8,7 +8,8 @@ import { documents } from "@/lib/documents";
 import type { PhotoId } from "@/lib/photos";
 
 export const seo = {
-  title: "Lisette Claudia TAME NJAMBE | Industrielle et bâtisseuse d’industries au Cameroun",
+  // Moins de 60 signes : le titre tient en entier dans les résultats de Google.
+  title: "Lisette Claudia TAME NJAMBE | Industrielle camerounaise",
   description:
     "Site officiel de Lisette Claudia TAME NJAMBE, fondatrice d’Africa Processing Company SA. Son parcours, sa vision de l’industrialisation, ses réalisations, ses tribunes, sa chaîne LCTV et un espace dédié aux médias.",
 };
