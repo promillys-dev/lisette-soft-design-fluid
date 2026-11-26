@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Entete } from "@/components/blocs/editorial";
 import { Vague } from "@/components/ui/vague";
 
-export const metadata: Metadata = { title: "Page introuvable | Lisette Claudia TAME NJAMBE" };
+export const metadata: Metadata = {
+  title: "Page introuvable | Lisette Claudia TAME NJAMBE",
+  robots: { index: false, follow: false },
+};
 
 /** Adresse inconnue : même en-tête que les pages intérieures, avec un retour à l'accueil. */
 export default function Introuvable() {

@@ -14,8 +14,23 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = pages[(await params).slug];
   return page
-    ? { title: page.titre, description: page.description }
-    : { title: "Page introuvable | Lisette Claudia TAME NJAMBE" };
+    ? {
+        title: page.titre,
+        description: page.description,
+        alternates: { canonical: `/${page.slug}` },
+        openGraph: {
+          type: "website",
+          locale: "fr_CM",
+          url: `/${page.slug}`,
+          title: page.titre,
+          description: page.description,
+          images: [{ url: "/images/portrait-lctn.jpg", width: 788, height: 1044, alt: page.titre }],
+        },
+      }
+    : {
+        title: "Page introuvable | Lisette Claudia TAME NJAMBE",
+        robots: { index: false, follow: false },
+      };
 }
 
 export default async function Page({ params }: Props) {
